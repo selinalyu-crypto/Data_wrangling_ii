@@ -27,7 +27,7 @@ scale_fill_discrete = scale_fill_viridis_d
 
 ## Scrape a table
 
-I want the first table from [this page]
+I want the first table from this page:
 (https://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm)
 
 read in the html
@@ -48,6 +48,39 @@ table_marj =
 
 table_marj
 ```
+
+## Star Wars Movie info
+
+```{r}
+url = "https://www.imdb.com/list/ls070150896/"
+
+swm_html = read_html(url)
+```
+
+Grab elements that I want
+```{r}
+title_vec = 
+  swm_html |>
+  html_elements(".ipc-title-link-wrapper .ipc-title__text--reduced") |>
+  html_text()
+
+metascore_vec = 
+  swm_html |>
+  html_elements(".metacritic-score-box") |>
+  html_text()
+
+runtime_vec = 
+  swm_html |>
+  html_elements(".dli-title-metadata-item:nth-child(2)") |>
+  html_text()
+
+swm_df = 
+  tibble(
+    title = title_vec,
+    score = metascore_vec,
+    runtime = runtime_vec)
+```
+
 
 
 

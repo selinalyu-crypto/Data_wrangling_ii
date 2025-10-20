@@ -355,7 +355,7 @@ display: none;
 
 <div id="scrape-a-table" class="section level2">
 <h2>Scrape a table</h2>
-<p>I want the first table from [this page] (<a href="https://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm" class="uri">https://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm</a>)</p>
+<p>I want the first table from this page: (<a href="https://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm" class="uri">https://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm</a>)</p>
 <p>read in the html</p>
 <pre class="r"><code>url = &quot;https://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm&quot;
 
@@ -387,6 +387,33 @@ table_marj</code></pre>
 ## #   `18-25(2013-2014)` &lt;chr&gt;, `18-25(2014-2015)` &lt;chr&gt;, `18-25(P Value)` &lt;chr&gt;,
 ## #   `26+(2013-2014)` &lt;chr&gt;, `26+(2014-2015)` &lt;chr&gt;, `26+(P Value)` &lt;chr&gt;,
 ## #   `18+(2013-2014)` &lt;chr&gt;, `18+(2014-2015)` &lt;chr&gt;, `18+(P Value)` &lt;chr&gt;</code></pre>
+</div>
+<div id="star-wars-movie-info" class="section level2">
+<h2>Star Wars Movie info</h2>
+<pre class="r"><code>url = &quot;https://www.imdb.com/list/ls070150896/&quot;
+
+swm_html = read_html(url)</code></pre>
+<p>Grab elements that I want</p>
+<pre class="r"><code>title_vec = 
+  swm_html |&gt;
+  html_elements(&quot;.ipc-title-link-wrapper .ipc-title__text--reduced&quot;) |&gt;
+  html_text()
+
+metascore_vec = 
+  swm_html |&gt;
+  html_elements(&quot;.metacritic-score-box&quot;) |&gt;
+  html_text()
+
+runtime_vec = 
+  swm_html |&gt;
+  html_elements(&quot;.dli-title-metadata-item:nth-child(2)&quot;) |&gt;
+  html_text()
+
+swm_df = 
+  tibble(
+    title = title_vec,
+    score = metascore_vec,
+    runtime = runtime_vec)</code></pre>
 </div>
 
 
