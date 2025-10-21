@@ -145,7 +145,7 @@ as.numeric(vec_sex) # 1 1 2 2
 
     ## [1] 1 1 2 2
 
-## NSDUH
+## NSDUH – strings
 
 ``` r
 nsduh_url = "http://samhda.s3-us-gov-west-1.amazonaws.com/s3fs-public/field-uploads/2k15StateFiles/NSDUHsaeShortTermCHG2015.htm"
@@ -174,3 +174,27 @@ data_marj =
   ) |>
   filter(!(State %in% c("Total U.S.", "Northeast", "Midwest", "South", "West")))
 ```
+
+## NSDUH – factors
+
+``` r
+data_marj |>
+  filter(age == "12-17") |> 
+  mutate(State = fct_reorder(State, percent)) |> #appear according to prevalence
+  ggplot(aes(x = State, y = percent, color = year)) + 
+    geom_point() + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-12-1.png" width="90%" />
+
+``` r
+data_marj |>
+  filter(age == "12-17") |> 
+  mutate(State = fct_relevel(State, "Texas")) |> # changing "State" from chr to fct variable, also set Texas as default state
+  ggplot(aes(x = State, y = percent, color = year)) + 
+    geom_point() + 
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Texas is the first state
+```
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-12-2.png" width="90%" />
