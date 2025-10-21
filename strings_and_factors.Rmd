@@ -162,6 +162,38 @@ data_marj |>
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) #Texas is the first state
 ```
 
+## Weather data
+
+```{r}
+library(p8105.datasets)
+data("weather_df")
+
+weather_df |>
+  mutate(name = forcats::fct_relevel(name, c("Molokai_HI", "CentralPark_NY", "Waterhole_WA"))) |> 
+  ggplot(aes(x = name, y = tmax)) + 
+  geom_violin(aes(fill = name), color = "blue", alpha = .5) + 
+  theme(legend.position = "bottom")
+
+weather_df |>
+  mutate(name = forcats::fct_reorder(name, tmax)) |> 
+  ggplot(aes(x = name, y = tmax)) + 
+  geom_violin(aes(fill = name), color = "blue", alpha = .5) + 
+  theme(legend.position = "bottom")
+```
+
+```{r}
+weather_df |>
+  lm(tmax ~ name, data = _)
+```
+linear regression --> central park is the reference group
+
+```{r}
+weather_df |>
+  mutate(name = forcats::fct_relevel(name, c("Molokai_HI", "CentralPark_NY", "Waterhole_WA"))) |> 
+  lm(tmax ~ name, data = _)
+```
+
+
 
 
 

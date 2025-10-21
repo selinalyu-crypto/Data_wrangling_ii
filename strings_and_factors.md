@@ -198,3 +198,70 @@ data_marj |>
 ```
 
 <img src="strings_and_factors_files/figure-gfm/unnamed-chunk-12-2.png" width="90%" />
+
+## Weather data
+
+``` r
+library(p8105.datasets)
+data("weather_df")
+
+weather_df |>
+  mutate(name = forcats::fct_relevel(name, c("Molokai_HI", "CentralPark_NY", "Waterhole_WA"))) |> 
+  ggplot(aes(x = name, y = tmax)) + 
+  geom_violin(aes(fill = name), color = "blue", alpha = .5) + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-13-1.png" width="90%" />
+
+``` r
+weather_df |>
+  mutate(name = forcats::fct_reorder(name, tmax)) |> 
+  ggplot(aes(x = name, y = tmax)) + 
+  geom_violin(aes(fill = name), color = "blue", alpha = .5) + 
+  theme(legend.position = "bottom")
+```
+
+    ## Warning: There was 1 warning in `mutate()`.
+    ## ℹ In argument: `name = forcats::fct_reorder(name, tmax)`.
+    ## Caused by warning:
+    ## ! `fct_reorder()` removing 17 missing values.
+    ## ℹ Use `.na_rm = TRUE` to silence this message.
+    ## ℹ Use `.na_rm = FALSE` to preserve NAs.
+    ## Removed 17 rows containing non-finite outside the scale range
+    ## (`stat_ydensity()`).
+
+<img src="strings_and_factors_files/figure-gfm/unnamed-chunk-13-2.png" width="90%" />
+
+``` r
+weather_df |>
+  lm(tmax ~ name, data = _)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = tmax ~ name, data = weather_df)
+    ## 
+    ## Coefficients:
+    ##      (Intercept)    nameMolokai_HI  nameWaterhole_WA  
+    ##            17.66             10.66            -10.28
+
+linear regression –\> central park is the reference group
+
+``` r
+weather_df |>
+  mutate(name = forcats::fct_relevel(name, c("Molokai_HI", "CentralPark_NY", "Waterhole_WA"))) |> 
+  lm(tmax ~ name, data = _)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = tmax ~ name, data = mutate(weather_df, name = forcats::fct_relevel(name, 
+    ##     c("Molokai_HI", "CentralPark_NY", "Waterhole_WA"))))
+    ## 
+    ## Coefficients:
+    ##        (Intercept)  nameCentralPark_NY    nameWaterhole_WA  
+    ##              28.32              -10.66              -20.94
