@@ -1,0 +1,126 @@
+---
+title: "Strings and Factors"
+author: Selina Lyu
+output: github_document
+---
+
+```{r, include = FALSE}
+library(tidyverse)
+library(rvest)
+library(p8105.datasets)
+
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = 0.6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_color_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Strings
+
+```{r}
+string_vec = c("my", "name", "is", "jeff")
+
+str_detect(string_vec, "jeff") #detect a particular pattern, does this appear in my string
+str_detect(string_vec, "Jeff")
+str_detect(string_vec, "e")
+
+str_replace(string_vec, "jeff", "Jeff")
+```
+
+```{r}
+string_vec = c(
+  "i think we all rule for participating",
+  "i think i have been caught",
+  "i think this will be quite fun actually",
+  "it will be fun, i think"
+  )
+
+str_detect(string_vec, "i think") #all true
+str_detect(string_vec, "^i think") #start with i think
+str_detect(string_vec, "i think$") #end with i think
+```
+
+```{r}
+string_vec = c(
+  "Time for a Pumpkin Spice Latte!",
+  "went to the #pumpkinpatch last weekend",
+  "Pumpkin Pie is obviously the best pie",
+  "SMASHING PUMPKINS -- LIVE IN CONCERT!!"
+  )
+
+str_detect(string_vec,"[Pp]umpkin") #match either B or b --> Pumpkin and pumpkin both
+```
+
+```{r}
+string_vec = c(
+  '7th inning stretch',
+  '1st half soon to begin. Texas won the toss.',
+  'she is 5 feet 4 inches tall',
+  '3AM - cant sleep :('
+  )
+
+str_detect(string_vec, "^[0-9][a-zA-Z]") #a number first, followed immediately by a letter
+```
+
+```{r}
+string_vec = c(
+  'Its 7:11 in the evening',
+  'want to go to 7-11?',
+  'my flight is AA711',
+  'NetBios: scanning ip 203.167.114.66'
+  )
+
+str_detect(string_vec, "7.11") # "." is a function means a special character that matches any symbol
+
+str_detect(string_vec, "7\\.11") # only 7.11 is detected
+```
+
+```{r}
+string_vec = c(
+  'The CI is [2, 5]',
+  ':-]',
+  ':-[',
+  'I found the answer on pages [6-7]'
+  )
+
+str_detect(string_vec, "\\[") #only [ is detected
+```
+
+## Factors
+
+```{r}
+vec_sex = factor(c("male", "male", "female", "female"))
+vec_sex #female is the first category --> alphabetical
+
+as.numeric(vec_sex) # 2 2 1 1
+```
+
+what happens if I relevel...
+```{r}
+vec_sex = fct_relevel(vec_sex, "male")
+vec_sex
+
+as.numeric(vec_sex) # 1 1 2 2
+```
+
+## NSDUH
+```{r}
+
+```
+
+
+
+
+
