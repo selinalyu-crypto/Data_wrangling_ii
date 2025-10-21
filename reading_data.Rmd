@@ -47,6 +47,11 @@ table_marj =
   as_tibble()
 
 table_marj
+
+table_7th = 
+  drug_use_html |>
+  html_table() |> #extracted all 15 tables, not look like a table yet
+  nth(7) 
 ```
 
 ## Star Wars Movie info
@@ -62,7 +67,7 @@ Grab elements that I want
 title_vec = 
   swm_html |>
   html_elements(".ipc-title-link-wrapper .ipc-title__text--reduced") |>
-  html_text()
+  html_text() #clean things up
 
 metascore_vec = 
   swm_html |>
@@ -84,7 +89,7 @@ swm_df =
 ## Get some water data
 
 This is coming from an API
-```{r}
+```{r, eval = FALSE}
 nyc_water = 
   GET("https://data.cityofnewyork.us/resource/ia2d-e54m.csv") |> #requested
   content("parsed")
@@ -98,12 +103,12 @@ nyc_water_json =
 
 ## BRFSS
 
-```{r}
+```{r, eval = FALSE}
 brfss_smart2010 = 
-  GET("https://chronicdata.cdc.gov/resource/acme-vg9e.csv") |> 
+  GET("https://chronicdata.cdc.gov/api/v3/views/acme-vg9e/query.csv",
+      query = list("app_token" = "ob2kELM6zeR0bVVN5Qccu7g3P")) |> 
   content("parsed")
 ```
-
 ## Some data aren't so nice
 
 pokemon API

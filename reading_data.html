@@ -387,6 +387,10 @@ table_marj</code></pre>
 ## #   `18-25(2013-2014)` &lt;chr&gt;, `18-25(2014-2015)` &lt;chr&gt;, `18-25(P Value)` &lt;chr&gt;,
 ## #   `26+(2013-2014)` &lt;chr&gt;, `26+(2014-2015)` &lt;chr&gt;, `26+(P Value)` &lt;chr&gt;,
 ## #   `18+(2013-2014)` &lt;chr&gt;, `18+(2014-2015)` &lt;chr&gt;, `18+(P Value)` &lt;chr&gt;</code></pre>
+<pre class="r"><code>table_7th = 
+  drug_use_html |&gt;
+  html_table() |&gt; #extracted all 15 tables, not look like a table yet
+  nth(7) </code></pre>
 </div>
 <div id="star-wars-movie-info" class="section level2">
 <h2>Star Wars Movie info</h2>
@@ -397,7 +401,7 @@ swm_html = read_html(url)</code></pre>
 <pre class="r"><code>title_vec = 
   swm_html |&gt;
   html_elements(&quot;.ipc-title-link-wrapper .ipc-title__text--reduced&quot;) |&gt;
-  html_text()
+  html_text() #clean things up
 
 metascore_vec = 
   swm_html |&gt;
@@ -420,15 +424,9 @@ swm_df =
 <p>This is coming from an API</p>
 <pre class="r"><code>nyc_water = 
   GET(&quot;https://data.cityofnewyork.us/resource/ia2d-e54m.csv&quot;) |&gt; #requested
-  content(&quot;parsed&quot;)</code></pre>
-<pre><code>## Rows: 65 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## dbl (4): year, new_york_city_population, nyc_consumption_million_gallons_per...
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>nyc_water_json = 
+  content(&quot;parsed&quot;)
+
+nyc_water_json = 
   GET(&quot;https://data.cityofnewyork.us/resource/ia2d-e54m.json&quot;) |&gt; 
   content(&quot;text&quot;) |&gt;
   jsonlite::fromJSON() |&gt;
@@ -437,17 +435,9 @@ swm_df =
 <div id="brfss" class="section level2">
 <h2>BRFSS</h2>
 <pre class="r"><code>brfss_smart2010 = 
-  GET(&quot;https://chronicdata.cdc.gov/resource/acme-vg9e.csv&quot;) |&gt; 
+  GET(&quot;https://chronicdata.cdc.gov/api/v3/views/acme-vg9e/query.csv&quot;,
+      query = list(&quot;app_token&quot; = &quot;ob2kELM6zeR0bVVN5Qccu7g3P&quot;)) |&gt; 
   content(&quot;parsed&quot;)</code></pre>
-<pre><code>## Rows: 1000 Columns: 23
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (16): locationabbr, locationdesc, class, topic, question, response, data...
-## dbl  (6): year, sample_size, data_value, confidence_limit_low, confidence_li...
-## lgl  (1): locationid
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
 <div id="some-data-arent-so-nice" class="section level2">
 <h2>Some data aren’t so nice</h2>
